@@ -35,6 +35,17 @@
                 <div class="alert success">
                     <%= success %>
                 </div>
+
+                <!-- ✅ Blockchain Hash Storage -->
+                <% if (hash) { %>
+                    <div style="margin-top: 20px;">
+                        <p><strong>Generated Perceptual Hash:</strong> <%= hash %></p>
+                        <button onclick="storeAudioHash('<%= hash %>')" class="btn-primary">
+                            Store Hash on Blockchain via MetaMask
+                        </button>
+                        <p id="txStatus" style="margin-top:10px; font-weight:bold;"></p>
+                    </div>
+                <% } %>
             <% } %>
             
             <form action="/upload" method="POST" enctype="multipart/form-data" class="upload-form">
@@ -102,5 +113,9 @@
             }
         }
     </script>
+
+    <!-- ✅ Blockchain scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.11.1/dist/ethers.umd.min.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>
