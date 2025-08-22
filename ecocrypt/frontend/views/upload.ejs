@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoCrypt - Upload</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>EchoCrypt</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="/dashboard" class="nav-link">Dashboard</a>
+                <a href="/upload" class="nav-link active">Upload</a>
+                <span class="user-info">Welcome, <%= user.username %></span>
+                <a href="/logout" class="btn-secondary">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="upload-container">
+        <div class="upload-card">
+            <h1>Upload Audio File</h1>
+            
+            <% if (error) { %>
+                <div class="alert error">
+                    <%= error %>
+                </div>
+            <% } %>
+            
+            <% if (success) { %>
+                <div class="alert success">
+                    <%= success %>
+                </div>
+            <% } %>
+            
+            <form action="/upload" method="POST" enctype="multipart/form-data" class="upload-form">
+                <div class="form-group">
+                    <label for="audio" class="file-upload-label">
+                        <div class="file-upload-box" id="uploadBox">
+                            <div class="upload-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M14,13V17H10V13H7L12,8L17,13M19.35,10.03C18.67,6.59 15.64,4 12,4C9.11,4 6.6,5.64 5.35,8.03C2.34,8.36 0,10.9 0,14A6,6 0 0,0 6,20H19A5,5 0 0,0 24,15C24,12.36 21.95,10.22 19.35,10.03Z" />
+                                </svg>
+                            </div>
+                            <p>Click to select or drag and drop audio files</p>
+                            <span class="file-types">Supported formats: MP3, WAV, FLAC, AAC</span>
+                        </div>
+                        <input type="file" id="audio" name="audio" accept="audio/*" style="display: none;" required>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn-primary">Process Audio</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Drag and drop functionality
+        const uploadBox = document.getElementById('uploadBox');
+        const fileInput = document.getElementById('audio');
+        
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.classList.add('dragover');
+        });
+        
+        uploadBox.addEventListener('dragleave', () => {
+            uploadBox.classList.remove('dragover');
+        });
+        
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadBox.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                updateUploadBoxText();
+            }
+        });
+        
+        fileInput.addEventListener('change', updateUploadBoxText);
+        
+        function updateUploadBoxText() {
+            if (fileInput.files.length) {
+                const file = fileInput.files[0];
+                const fileName = file.name;
+                const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+                
+                uploadBox.innerHTML = `
+                    <div class="file-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                        </svg>
+                    </div>
+                    <p>${fileName}</p>
+                    <span class="file-size">${fileSize} MB</span>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

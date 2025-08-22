@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoCrypt - Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>EchoCrypt</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="/dashboard" class="nav-link active">Dashboard</a>
+                <a href="/upload" class="nav-link">Upload</a>
+                <span class="user-info">Welcome, <%= user.username %></span>
+                <a href="/logout" class="btn-secondary">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Your Audio Files</h1>
+            <a href="/upload" class="btn-primary">Upload New File</a>
+        </div>
+
+        <% if (message) { %>
+            <div class="alert success">
+                <%= message %>
+            </div>
+        <% } %>
+
+        <div class="audio-files">
+            <% if (audioFiles && audioFiles.length > 0) { %>
+                <div class="file-grid">
+                    <% audioFiles.forEach(file => { %>
+                        <div class="file-card">
+                            <div class="file-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                                </svg>
+                            </div>
+                            <div class="file-info">
+                                <h3><%= file.filename %></h3>
+                                <p>Duration: <%= file.duration.toFixed(2) %> seconds</p>
+                                <p>Sample Rate: <%= file.sample_rate %> Hz</p>
+                                <p>Uploaded: <%= new Date(file.created_at).toLocaleDateString() %></p>
+                            </div>
+                            <div class="file-actions">
+                                <button class="btn-secondary">View Details</button>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                        </svg>
+                    </div>
+                    <h3>No audio files yet</h3>
+                    <p>Upload your first audio file to get started with EchoCrypt</p>
+                    <a href="/upload" class="btn-primary">Upload Audio</a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
