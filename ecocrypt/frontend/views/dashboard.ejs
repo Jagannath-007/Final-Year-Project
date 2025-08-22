@@ -27,6 +27,12 @@
             <a href="/upload" class="btn-primary">Upload New File</a>
         </div>
 
+        <!-- 🔗 MetaMask Wallet Integration -->
+        <div style="margin: 20px 0;">
+            <button id="connectButton" class="btn-primary">🔗 Connect MetaMask</button>
+            <p id="walletAddress" style="margin-top:10px; font-weight:bold; color:#333;"></p>
+        </div>
+
         <% if (message) { %>
             <div class="alert success">
                 <%= message %>
@@ -69,5 +75,9 @@
             <% } %>
         </div>
     </div>
+
+    <!-- 🔗 Load ethers.js + script.js -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.11.1/dist/ethers.umd.min.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>
